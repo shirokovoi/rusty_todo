@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info: 
   title: Ordered ToDo list 
+  version: "1.0"
 security:
   - basicAuth: []
 paths:
@@ -43,6 +44,7 @@ paths:
       description: "Returns user owned list"
       responses:
         200:
+          description: "Ok"
           content:
             application/json:
               schema:
@@ -57,6 +59,7 @@ paths:
       description: "Get all lists ids"
       responses:
         200:
+          description: "Ok"
           content:
             application/json:
               schema:
@@ -70,6 +73,9 @@ paths:
       tags:
         - lists
       description: "Create list"
+      responses:
+        200:
+           description: "Ok"
   /list/{id}:
     parameters:
       - in: path
@@ -87,13 +93,13 @@ paths:
           $ref: '#/components/responses/ListNotFound'
     get: 
       parameters:
-        - in: path
+        - in: "query"
           name: count
           required: false
           schema:
             type: integer
           description: "Specify maximum entries in response"
-        - in: path
+        - in: "query"
           name: offset
           required: false
           schema:
@@ -104,6 +110,7 @@ paths:
       description: "Get list"
       responses:
         200:
+          description: "Ok"
           content:
             application/json:
               schema:
@@ -118,7 +125,6 @@ paths:
                       properties:
                         id:
                           type: integer
-                          required: true
                         priority:
                           type: integer
                         description:
@@ -137,6 +143,8 @@ paths:
       - in: "path"
         name: "id"
         required: true
+        schema:
+           type: integer
     post:
       tags:
         - entry
@@ -149,13 +157,20 @@ paths:
               properties:
                 value: 
                   type: string
+      responses:
+        200:
+           description: "Ok"
   /list/{list_id}/entry/{entry_id}:
     parameters:
       - in: "path"
         name: "list_id"
+        schema:
+           type: integer
         required: true
       - in: "path"
         name: "entry_id"
+        schema:
+           type: integer
         required: true
     put:
       tags:
@@ -203,10 +218,9 @@ components:
       properties:
         status_code:
           type: string
-          required: true  
         detail:
           type: string
-  secutitySchemes:
+  securitySchemes:
     basicAuth: 
       type: http
       scheme: basic
