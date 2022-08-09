@@ -9,7 +9,24 @@ paths:
       security: []
       tags:
         - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: 
+                  type: string
+                password:
+                  type: string
       responses:
+        400:
+          description: 'Bad request'
+          content:
+            application/json:
+              example: '{"status_code": "400 Bad Request", "detail": "Request has empty password"}'
+              schema:
+                $ref: '#/components/schemas/ErrorResponseSchema'
         409:
           description: 'Username conficts with already exists'
           content:
@@ -28,10 +45,11 @@ paths:
         200:
           content:
             application/json:
-              type: object
-              properties:
-                list_id:
-                  type: integer
+              schema:
+                type: object
+                properties:
+                  list_id:
+                    type: integer
   /list/:
     get:
       tags:
@@ -98,6 +116,9 @@ paths:
                     items:
                       type: object
                       properties:
+                        id:
+                          type: integer
+                          required: true
                         priority:
                           type: integer
                         description:
@@ -107,13 +128,68 @@ paths:
     delete:
       tags:
         - lists
-      description: "Delete list"
+      description: "Delete entire list"
       responses:
         404:
           $ref: '#/components/responses/ListNotFound'
-
+  /list/{id}/entry:
+    parameters:
+      - in: "path"
+        name: "id"
+        required: true
+    post:
+      tags:
+        - entry
+      description: 'Create new entry'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value: 
+                  type: string
+  /list/{list_id}/entry/{entry_id}:
+    parameters:
+      - in: "path"
+        name: "list_id"
+        required: true
+      - in: "path"
+        name: "entry_id"
+        required: true
+    put:
+      tags:
+        - entry
+      description: 'Modify entry'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                set_priority:
+                  type: integer
+      responses:
+        200:
+          description: "Ok"
+        404:
+          $ref: '#/components/responses/EntryNotFound'
+    delete:
+      tags:
+        - entry
+      description: 'Delete entry'
+      responses:
+        200:
+          description: "Ok"
+        404:
+          $ref: '#/components/responses/EntryNotFound'
 components:
   responses:
+    EntryNotFound:
+      description: "Entry not found"
+      content:
+        application/json:
+          example: '{"status_code": "404 Not Found", "detail": "Entry with id %id% in list %list_id% not found"}'
     ListNotFound:
       description: "List not found"
       content:
