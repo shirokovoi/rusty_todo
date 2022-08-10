@@ -87,10 +87,32 @@ paths:
     put:
       tags:
         - lists
-      description: "Modify list"
+      description: "Modify list order"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version:
+                  type: integer
+                priorities:
+                  type: object
+                  properties:
+                    entry_id:
+                      type: integer
+                    priority:
+                      type: integer
       responses:
+        200:
+          description: "Ok"
         404:
           $ref: '#/components/responses/ListNotFound'
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseSchema'
     get: 
       parameters:
         - in: "query"
@@ -116,6 +138,8 @@ paths:
               schema:
                 type: object
                 properties: 
+                  version:
+                    type: integer
                   total_entries:
                     type: integer
                   entries:
@@ -172,23 +196,6 @@ paths:
         schema:
            type: integer
         required: true
-    put:
-      tags:
-        - entry
-      description: 'Modify entry'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                set_priority:
-                  type: integer
-      responses:
-        200:
-          description: "Ok"
-        404:
-          $ref: '#/components/responses/EntryNotFound'
     delete:
       tags:
         - entry
