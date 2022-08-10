@@ -3,7 +3,7 @@ CREATE TABLE Users(Id int not null primary key, Username int not null , HashedPa
 CREATE INDEX UsersUsernameIdx on Users(Username);
 
 CREATE TABLE TodoList(Id int not null primary key, OwnerId int not null);
-ALTER TABLE TodoListOwner_fk ADD FOREIGN KEY (OwnerId) REFERENCES Users(Id);
+ALTER TABLE TodoList ADD CONSTRAINT TodoListOwner_fk FOREIGN KEY (OwnerId) REFERENCES Users(Id);
 
 CREATE TABLE TodoEntry(Id int not null primary key, Priority int not null, ListId int not null, Value varchar(2048));
-ALTER TABLE TodoEntryListId_fk ADD FOREIGN KEY (ListId) REFERENCES TodoList(Id);
+ALTER TABLE TodoEntry ADD CONSTRAINT TodoEntryListId_fk FOREIGN KEY (ListId) REFERENCES TodoList(Id);
