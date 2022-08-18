@@ -3,12 +3,21 @@ use crate::{errors::Error, models::*, repository};
 use crate::repository::Repository;
 use actix_web::{web, HttpResponse};
 use actix_web_httpauth::extractors::basic::BasicAuth;
+use bcrypt;
 
 pub async fn user_register(
     repository: web::Data<Repository>,
     info: web::Json<UserInfo>,
 ) -> Result<HttpResponse, Error> {
-    unimplemented!()
+    let crypted = bcrypt::hash_with_result(&info.password, bcrypt::DEFAULT_COST)?; // FIXME long
+                                                                                   // blocking
+                                                                                   // operation!
+
+    repository
+        .create_user(&info.username, &crypted.to_string())
+        .await?;
+
+    Ok(HttpResponse::Ok().into())
 }
 
 pub async fn get_my_list(
