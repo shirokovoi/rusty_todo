@@ -1,4 +1,5 @@
-use actix_web::{error::ResponseError, HttpResponse};
+use actix_web::{error::ResponseError, http::header::ContentType, web, HttpResponse};
+use serde::Serialize;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -37,6 +38,12 @@ pub enum Error {
     UsernameAlreadyExists,
 }
 
+#[derive(Serialize)]
+struct ErrorResponse {
+    status_code: String,
+    detail: String,
+}
+
 impl ResponseError for Error {
     fn status_code(&self) -> actix_web::http::StatusCode {
         match &self {
@@ -46,6 +53,11 @@ impl ResponseError for Error {
     }
 
     fn error_response(&self) -> actix_web::HttpResponse<actix_web::body::BoxBody> {
-        unimplemented!();
+        HttpResponse::build(self.status_code())
+            .insert_header(ContentType::json())
+            .json(ErrorResponse {
+                status_code: format!("{}", self.status_code()),
+                detail: self.to_string(),
+            })
     }
 }
