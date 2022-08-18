@@ -2,6 +2,14 @@ openapi: 3.0.0
 info: 
   title: Ordered ToDo list 
   version: "1.0"
+servers:
+  - url: 'http://localhost:{port}'
+    description: Local server
+    variables:
+      port:
+        enum:
+          - '8080'
+        default: '8080'
 security:
   - basicAuth: []
 paths:

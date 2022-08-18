@@ -13,6 +13,16 @@ pub enum Error {
         #[from]
         source: toml::de::Error,
     },
+    #[error("Got error while access db")]
+    SqlxError {
+        #[from]
+        source: sqlx::Error,
+    },
+    #[error("Wrong logger configuration")]
+    LoggerError {
+        #[from]
+        source: flexi_logger::FlexiLoggerError,
+    },
 }
 
 impl ResponseError for Error {
