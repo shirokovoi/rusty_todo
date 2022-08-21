@@ -5,7 +5,6 @@ mod models;
 mod repository;
 
 use actix_web::{middleware::Logger, web, App, HttpServer};
-use actix_web_httpauth::middleware::HttpAuthentication;
 use application_config::ApplicationConfig;
 use errors::Error;
 use flexi_logger;

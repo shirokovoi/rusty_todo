@@ -38,6 +38,14 @@ pub enum Error {
     UsernameAlreadyExists,
     #[error("User is not authorized")]
     Unauthorized,
+    #[error("Forbidden")]
+    Forbidden,
+    #[error("Not found")]
+    NotFound,
+    #[error("Internal error")]
+    InternalError,
+    #[error("User already has todolist")]
+    TodoListAlreadyCreated,
 }
 
 #[derive(Serialize)]

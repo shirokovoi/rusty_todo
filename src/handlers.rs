@@ -12,8 +12,12 @@ async fn check_credentials(
     auth: &BasicAuth,
     repository: &web::Data<Repository>,
 ) -> Result<UserIdentity, Error> {
+    let password = auth.password().ok_or(Error::Unauthorized)?;
+
     repository
-        .check_credentials(auth.user_id(), auth.password().ok_or(Error::Unauthorized)?)
+        .check_credentials(auth.user_id(), |hashed_password| -> Result<bool, Error> {
+            bcrypt::verify(password, hashed_password).map_err(|err| err.into())
+        })
         .await
 }
 
@@ -125,7 +129,7 @@ pub async fn add_entry(
 ) -> Result<HttpResponse, Error> {
     let identity = check_credentials(&auth, &repository).await?;
     repository
-        .add_entry(&identity, *list_id, &entry.value)
+        .add_entry(&identity, *list_id, entry.version, &entry.value)
         .await?;
 
     Ok(HttpResponse::Ok().into())
@@ -138,7 +142,12 @@ pub async fn delete_entry(
 ) -> Result<HttpResponse, Error> {
     let identity = check_credentials(&auth, &repository).await?;
     repository
-        .delete_entry(&identity, location.list_id, location.entry_id)
+        .delete_entry(
+            &identity,
+            location.version,
+            location.list_id,
+            location.entry_id,
+        )
         .await?;
 
     Ok(HttpResponse::Ok().into())

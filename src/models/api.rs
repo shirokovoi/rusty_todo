@@ -83,6 +83,7 @@ pub struct ListResponse {
 #[derive(Deserialize, Serialize)]
 pub struct EntryCreate {
     pub value: String,
+    pub version: u32,
 }
 
 #[derive(Deserialize)]
@@ -100,4 +101,5 @@ pub struct ListId {
 pub struct EntryLocation {
     pub list_id: u32,
     pub entry_id: u32,
+    pub version: u32,
 }
