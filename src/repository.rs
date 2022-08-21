@@ -1,7 +1,6 @@
 use crate::{application_config, errors::Error, models::internal::*};
-use actix_web::web::Data;
 use sqlx::postgres::PgConnectOptions;
-use sqlx::{Executor, PgExecutor, PgPool, Postgres, Database, Transaction};
+use sqlx::{Executor, PgPool, Postgres};
 
 pub struct Repository {
     pool: PgPool,

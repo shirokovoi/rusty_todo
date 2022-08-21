@@ -7,7 +7,6 @@ mod repository;
 use actix_web::{middleware::Logger, web, App, HttpServer};
 use application_config::ApplicationConfig;
 use errors::Error;
-use flexi_logger;
 use log::info;
 use repository::Repository;
 use std::fs;

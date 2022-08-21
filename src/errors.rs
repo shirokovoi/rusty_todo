@@ -1,4 +1,4 @@
-use actix_web::{error::ResponseError, http::header::ContentType, web, HttpResponse};
+use actix_web::{error::ResponseError, http::header::ContentType, HttpResponse};
 use serde::Serialize;
 use thiserror::Error;
 

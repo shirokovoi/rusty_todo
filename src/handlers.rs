@@ -6,7 +6,6 @@ use crate::{
 
 use actix_web::{web, HttpResponse};
 use actix_web_httpauth::extractors::basic::BasicAuth;
-use bcrypt;
 
 async fn check_credentials(
     auth: &BasicAuth,
