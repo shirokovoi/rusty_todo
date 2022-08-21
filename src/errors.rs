@@ -62,6 +62,7 @@ impl ResponseError for Error {
             Error::Forbidden => actix_web::http::StatusCode::FORBIDDEN,
             Error::NotFound => actix_web::http::StatusCode::NOT_FOUND,
             Error::InternalError => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
+            Error::TodoListAlreadyCreated => actix_web::http::StatusCode::BAD_REQUEST,
             _ => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
         }
     }

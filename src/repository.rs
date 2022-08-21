@@ -200,7 +200,7 @@ impl Repository {
         }
 
         sqlx::query!(
-            "insert into todoentry(priority, list_id, value) values ((select max(id) from todoentry where list_id = $1), (select id from todolist where id = $1 and version = $3), $2)", 
+            "insert into todoentry(priority, list_id, value) values ((select coalesce(max(id),0) from todoentry where list_id = $1), (select id from todolist where id = $1 and version = $3), $2)", 
             list_id as i32,
             entry_value, 
             version as i32,

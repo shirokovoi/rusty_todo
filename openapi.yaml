@@ -194,6 +194,8 @@ paths:
             schema:
               type: object
               properties:
+                version:
+                  type: integer
                 value: 
                   type: string
       responses:
