@@ -36,6 +36,8 @@ pub enum Error {
     },
     #[error("User with given username already exists")]
     UsernameAlreadyExists,
+    #[error("User is not authorized")]
+    Unauthorized,
 }
 
 #[derive(Serialize)]

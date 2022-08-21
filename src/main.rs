@@ -5,6 +5,7 @@ mod models;
 mod repository;
 
 use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web_httpauth::middleware::HttpAuthentication;
 use application_config::ApplicationConfig;
 use errors::Error;
 use flexi_logger;
@@ -40,7 +41,7 @@ async fn main() -> Result<(), Error> {
                             .route(web::get().to(handlers::get_all_list_ids)),
                     )
                     .service(
-                        web::scope("/{id}")
+                        web::scope("/{list_id}")
                             .service(
                                 web::resource("")
                                     .route(web::get().to(handlers::get_list))

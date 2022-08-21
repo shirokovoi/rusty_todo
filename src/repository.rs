@@ -1,5 +1,4 @@
-use crate::application_config;
-use crate::errors::Error;
+use crate::{application_config, errors::Error, models::internal::*};
 use sqlx::postgres::{PgConnectOptions, PgConnection};
 use sqlx::PgPool;
 
@@ -65,5 +64,65 @@ impl Repository {
         .map_err(|err| Self::convert_error(err))?;
 
         Ok(())
+    }
+
+    pub async fn check_credentials(
+        &self,
+        username: &str,
+        password: &str,
+    ) -> Result<UserIdentity, Error> {
+        unimplemented!();
+    }
+
+    pub async fn get_user_list(&self, identity: &UserIdentity) -> Result<u32, Error> {
+        unimplemented!();
+    }
+
+    pub async fn get_all_list_ids(&self) -> Result<Vec<u32>, Error> {
+        unimplemented!();
+    }
+
+    pub async fn create_list(&self, identity: &UserIdentity) -> Result<u32, Error> {
+        unimplemented!();
+    }
+
+    async fn check_user_owns_list(&self, identity: &UserIdentity) -> Result<(), Error> {
+        unimplemented!()
+    }
+
+    pub async fn delete_list(&self, identity: &UserIdentity, list_id: u32) -> Result<(), Error> {
+        unimplemented!()
+    }
+
+    pub async fn add_entry(
+        &self,
+        identity: &UserIdentity,
+        list_id: u32,
+        entry_value: &str,
+    ) -> Result<(), Error> {
+        unimplemented!();
+    }
+
+    pub async fn delete_entry(
+        &self,
+        identity: &UserIdentity,
+        list_id: u32,
+        entry_id: u32,
+    ) -> Result<(), Error> {
+        unimplemented!();
+    }
+
+    pub async fn modify_entry_order(
+        &self,
+        identity: &UserIdentity,
+        list_id: u32,
+        version: u32,
+        priorities: Vec<EntryPriority>,
+    ) -> Result<(), Error> {
+        unimplemented!()
+    }
+
+    pub async fn get_list(&self, list_id: u32, count: u32, offset: u32) -> Result<List, Error> {
+        unimplemented!();
     }
 }
